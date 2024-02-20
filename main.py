@@ -1,14 +1,36 @@
 from tkinter import *
 from tkinter import messagebox
+from random import choice, randint, shuffle
+import pyperclip
 
 
 window = Tk()
-# window = Tk(title="Password Manager App")
-
 FONT_SIZE = 14
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
+def generate_password():
+    
+    password_list = []
+    
+    symbols = ["{", "}", "[", "]", "(", ")", "!", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", ":", "'", ";", "/", "?", ">", "<", "|", "~", "`", ",", "."]
+    letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N","O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    
+    password_list += [choice(letters) for i in range(randint(8, 12)) ]
+    password_list += [choice(symbols) for i in range(randint(2, 4)) ]
+    password_list += [choice(numbers) for i in range(randint(2, 4)) ]
+    print(password_list)
+    shuffle(password_list)
+    print(password_list)
+    password = "".join(password_list)
+    
+    password_entry.delete(0, END)
+    password_entry.insert(0, password)
+    pyperclip.copy(password)
+
+    
+    
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_data():
@@ -64,7 +86,7 @@ email_entry.grid(row=2, column=1, columnspan=2)
 password_entry.grid(row=3, column=1)
 
 
-generate_button = Button(text="Generate Password",width=15, font=(FONT_SIZE))
+generate_button = Button(text="Generate Password",width=15, font=(FONT_SIZE), command=generate_password)
 generate_button.grid(row=3, column=2)
 
 add_button = Button(text="Add",width=35, font=(FONT_SIZE), command=save_data)
